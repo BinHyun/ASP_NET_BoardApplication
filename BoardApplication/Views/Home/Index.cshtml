@@ -1,0 +1,48 @@
+﻿@using BoardApplication
+@model IEnumerable<BoardApplication.Models.Boardlist>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<h1>
+    게시판
+</h1>
+<p style="text-align:right">
+    @Html.ActionLink("글쓰기", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Writer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Published_data)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @item.Number
+            </td>
+            <td>
+                @item.Title
+            </td>
+            <td>
+                @item.Writer
+            </td>
+            <td>
+                @item.Published_data
+            </td>
+        </tr>
+    }
+</table>
