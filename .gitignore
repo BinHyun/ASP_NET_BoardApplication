@@ -1,0 +1,16 @@
+# Web.config 제외
+Web.config
+Web.Debug.config
+Web.Release.config
+
+# .vs (Visual Studio 설정 파일) 무시
+.vs/
+
+# obj 및 bin 폴더 (빌드 결과물) 제외
+obj/
+bin/
+
+# 사용자별 환경설정 무시
+*.user
+*.suo
+*.vscode/
