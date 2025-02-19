@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.Mvc;
 using BoardApplication.Models;
+using System.Data;
 
 namespace BoardApplication.Controllers
 {
@@ -16,13 +17,18 @@ namespace BoardApplication.Controllers
             var BoardList = new List<Boardlist>();
 
             string connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+            string sql = "SELECT * FROM [BoardList]";
+            DataSet ds = new DataSet();
 
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     con.Open();
+                    SqlDataAdapter da = new SqlDataAdapter(sql, con);
+                    da.Fill(ds);
                     ViewBag.Message = "Database connection successful!";
+                    ViewBag.Ds = ds;
 
                 }
             }
