@@ -1,5 +1,5 @@
 ﻿@using BoardApplication
-@model IEnumerable<BoardApplication.Models.Boardlist>
+@model List<BoardApplication.Models.Boardlist>
 
 @{
     ViewBag.Title = "Home Page";
@@ -18,34 +18,26 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Number)
+            순번
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Title)
+            제목
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Writer)
+            작성자
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Published_data)
+            작성일
         </th>
     </tr>
 
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @item.Number
-            </td>
-            <td>
-                @item.Title
-            </td>
-            <td>
-                @item.Writer
-            </td>
-            <td>
-                @item.Published_data
-            </td>
+            <td>@item.Number</td>
+            <td>@item.Title</td>
+            <td>@item.Writer</td>
+            <td>@item.Published_data</td>
         </tr>
     }
 </table>

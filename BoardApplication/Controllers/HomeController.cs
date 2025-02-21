@@ -18,18 +18,26 @@ namespace BoardApplication.Controllers
 
             string connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
             string sql = "SELECT * FROM [BoardList]";
-            DataSet ds = new DataSet();
 
             try
             {
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
                     con.Open();
-                    SqlDataAdapter da = new SqlDataAdapter(sql, con);
-                    da.Fill(ds);
-                    ViewBag.Message = "Database connection successful!";
-                    ViewBag.Ds = ds;
+                    SqlCommand cmd = new SqlCommand(sql, con);
+                    SqlDataReader reader = cmd.ExecuteReader();
 
+                    while (reader.Read())
+                    {
+                        BoardList.Add(new Boardlist
+                        {
+                            Listid = Convert.ToInt32(reader["Listid"]),
+                            Number = Convert.ToInt32(reader["number"]),
+                            Title = reader["Title"].ToString(),
+                            Writer = reader["Writer"].ToString(),
+                            Published_data = Convert.ToInt32(reader["Published_data"])
+                        });
+                    }
                 }
             }
             catch (Exception ex)
