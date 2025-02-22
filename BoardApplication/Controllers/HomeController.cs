@@ -47,6 +47,12 @@ namespace BoardApplication.Controllers
 
             return View(BoardList);
         }
+        public ActionResult Create()
+        {
+            ViewBag.Message = "글쓰기";
+
+            return View();
+        }
 
         public ActionResult About()
         {
