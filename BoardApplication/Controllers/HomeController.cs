@@ -49,9 +49,14 @@ namespace BoardApplication.Controllers
         }
         public ActionResult Create()
         {
-            ViewBag.Message = "글쓰기";
-
             return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Title, Writer")] Boardlist boardlist)
+        {
+            return View(boardlist);
         }
 
         public ActionResult About()

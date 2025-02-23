@@ -1,8 +1,37 @@
-﻿
+﻿@model BoardApplication.Models.Boardlist
+
 @{
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
-<h2>@ViewBag.Message</h2>
+<h2>글쓰기</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div style="margin-bottom:15px; text-align:right">
+                <input type="submit" value="Create" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div style="margin-bottom:5px">
+                <div>
+                    @Html.LabelFor(model => model.Title)
+                    @Html.EditorFor(model => model.Title)
+                </div>
+
+                <div>
+                    @Html.LabelFor(model => model.Writer)
+                    @Html.EditorFor(model => model.Writer)
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
 
