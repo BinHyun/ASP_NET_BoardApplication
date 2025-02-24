@@ -1,30 +1,24 @@
-﻿@using BoardApplication
+﻿@using BoardApplication.Models
 @model List<BoardApplication.Models.Boardlist>
 
 @{
     ViewBag.Title = "Home Page";
 }
 
-<h1>
-    게시판
+<h1 style="text-align:center">
+    Q&A
 </h1>
-<p style="text-align:right">
-    <a href="/home" onclick="createPopup()">글쓰기</a>
-</p>
-<p>
-    @ViewBag.Message
-</p>
 
-<table class="table">
+<table class="table table-hover">
     <tr>
         <th>
-            순번
+            No
         </th>
         <th>
             제목
         </th>
         <th>
-            작성자
+            글쓴이
         </th>
         <th>
             작성일
@@ -42,9 +36,14 @@
     }
 </table>
 
+<div style="text-align:right">
+    <a class="btn btn-primary" href="/home" role="button" onclick="createPopup()">글쓰기</a>
+</div>
+
+
 <script>
     function createPopup() {
-        window.open('/Home/Create', 'popup',
-            'width=20','height=10','toolbars=no,scrollbars=no');
+        window.open('/Home/Create', 'CreatePopup',
+            'width=600,height=800,toolbars=no,scrollbars=no');
     };
 </script>

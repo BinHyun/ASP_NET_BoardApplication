@@ -15,6 +15,8 @@ namespace BoardApplication.Models
         public int Number { get; set; }
         [DisplayName("제목")]
         public string Title { get; set; }
+        [DisplayName("내용")]
+        public string Content { get; set; }
         [DisplayName("작성자")]
         public string Writer { get; set; }
         [DisplayName("작성일")]

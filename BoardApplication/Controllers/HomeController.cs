@@ -54,7 +54,7 @@ namespace BoardApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title, Writer")] Boardlist boardlist)
+        public ActionResult Create([Bind(Include = "Title, Writer, Content")] Boardlist boardlist)
         {
             return View(boardlist);
         }
