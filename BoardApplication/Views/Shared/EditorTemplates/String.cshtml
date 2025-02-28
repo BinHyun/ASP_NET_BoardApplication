@@ -1,0 +1,10 @@
+﻿@model BoardApplication.Models.Boardlist
+@{
+    ViewBag.Title = "String";
+}
+
+
+<div class="input-group mb-3">
+    <span class="input-group-text" id="inputGroup-sizing-default">@Html.LabelForModel()</span>
+    <input type="text" class="form-control" id="@Html.IdForModel()" name="@Html.NameForModel()" value="@Model" />
+</div>

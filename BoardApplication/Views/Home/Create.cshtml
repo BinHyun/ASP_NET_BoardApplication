@@ -21,27 +21,20 @@
         <div class="form-group">
             <div>
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">@Html.LabelFor(model => model.Title)</span>
                     @Html.EditorFor(model => model.Title)
-                    <!-- <input type="text" class="form-control"> -->
                 </div>
 
                 <div class="input-group mb-3">
-                    <span class="input-group-text" id="inputGroup-sizing-default">@Html.LabelFor(model => model.Writer)</span>
                     @Html.EditorFor(model => model.Writer)     
                 </div>
 
                 <div class="input-group">
-                    <span class="input-group-text">@Html.LabelFor(model => model.Content)</span>
-                    @Html.TextAreaFor(model => model.Content)
+                    <span class="input-group-text">
+                        @Html.LabelFor(model => model.Content, new { @class = "control-label" })
+                    </span>
+                    @Html.TextAreaFor(model => model.Content, new {@class = "form-control", rows = 5})
                 </div>
-
-                <!--
-                <div>
-                    @Html.LabelFor(model => model.Writer)
-                    @Html.EditorFor(model => model.Writer)
-                </div>
-                -->
+                
             </div>
         </div>
     </div>
