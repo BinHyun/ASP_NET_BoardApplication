@@ -17,7 +17,7 @@ namespace BoardApplication.Controllers
             var BoardList = new List<Boardlist>();
 
             string connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            string sql = "SELECT * FROM [BoardList]";
+            string sql = "SELECT * FROM [LIST]";
 
             try
             {
@@ -57,6 +57,7 @@ namespace BoardApplication.Controllers
         public ActionResult Create([Bind(Include = "Title, Writer, Content")] Boardlist boardlist)
         {
             return View(boardlist);
+            
         }
 
         public ActionResult About()
