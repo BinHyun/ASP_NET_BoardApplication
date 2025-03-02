@@ -12,30 +12,31 @@ namespace BoardApplication.Controllers
 {
     public class HomeController : Controller
     {
+        string connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+        SqlConnection con;
+        SqlCommand cmd;
         public ActionResult Index()
         {
             var BoardList = new List<Boardlist>();
-
-            string connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
-            string sql = "SELECT * FROM [LIST]";
+            
+            string sql = "SELECT * FROM [BOARDLIST]";
 
             try
             {
-                using (SqlConnection con = new SqlConnection(connectionString))
+                using (con = new SqlConnection(connectionString))
                 {
                     con.Open();
-                    SqlCommand cmd = new SqlCommand(sql, con);
+                    cmd = new SqlCommand(sql, con);
                     SqlDataReader reader = cmd.ExecuteReader();
 
                     while (reader.Read())
                     {
                         BoardList.Add(new Boardlist
                         {
-                            Listid = Convert.ToInt32(reader["Listid"]),
-                            Number = Convert.ToInt32(reader["number"]),
-                            Title = reader["Title"].ToString(),
-                            Writer = reader["Writer"].ToString(),
-                            Published_data = Convert.ToInt32(reader["Published_data"])
+                            LISTID = Convert.ToInt32(reader["LISTID"]),
+                            TITLE = reader["TITLE"].ToString(),
+                            WRITER = reader["WRITER"].ToString(),
+                            CREATED_DATE = reader["CREATED_DATE"].ToString()
                         });
                     }
                 }
@@ -54,10 +55,30 @@ namespace BoardApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Title, Writer, Content")] Boardlist boardlist)
+        public ActionResult Create([Bind(Include = "TITLE, CONTENTS, WRITER")] Boardlist boardlist)
         {
-            return View(boardlist);
-            
+            if (ModelState.IsValid)
+            {
+                string sql = @"
+                INSERT INTO [BOARDLIST] (TITLE, CONTENTS, WRITER, CREATED_DATE) VALUES (@TITLE, @CONTENTS, @WRITER, @CREATED_DATE)";
+
+                using (con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@TITLE", boardlist.TITLE);
+                        cmd.Parameters.AddWithValue("@CONTENTS", boardlist.CONTENTS);
+                        cmd.Parameters.AddWithValue("@WRITER", boardlist.WRITER);
+                        cmd.Parameters.AddWithValue("@CREATED_DATE", DateTime.Now.ToString("yyyy-MM-dd")); // 현재 시간 설정
+
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                return RedirectToAction("index");
+            }
+
+           return View(boardlist);            
         }
 
         public ActionResult About()

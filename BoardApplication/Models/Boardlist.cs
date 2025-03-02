@@ -8,18 +8,16 @@ using System.ComponentModel;
 namespace BoardApplication.Models
 {
     public class Boardlist
-    {
+    {    
         [Key]
-        public int Listid { get; set; }
-        [DisplayName("순번")]
-        public int Number { get; set; }
+        public int LISTID { get; set; }
         [DisplayName("제목")]
-        public string Title { get; set; }
+        public string TITLE { get; set; }
         [DisplayName("내용")]
-        public string Content { get; set; }
+        public string CONTENTS { get; set; }
         [DisplayName("작성자")]
-        public string Writer { get; set; }
+        public string WRITER { get; set; }
         [DisplayName("작성일")]
-        public int Published_data { get; set; }
+        public string CREATED_DATE { get; set; }
     }
 }
