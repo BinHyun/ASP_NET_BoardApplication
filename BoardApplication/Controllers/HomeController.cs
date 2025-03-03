@@ -81,11 +81,39 @@ namespace BoardApplication.Controllers
            return View(boardlist);            
         }
 
-        public ActionResult About()
+        public ActionResult Read(int? id)
         {
-            ViewBag.Message = "Your application description page.";
+            if(id == null)
+            {
+                return HttpNotFound();
+            }
 
-            return View();
+            string sql = @"SELECT * FROM [BOARDLIST] WHERE LISTID = @ListId";
+            var BoardList = new List<Boardlist>();
+
+            using (con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                using(cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@ListId", id);
+                    using(var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            BoardList.Add(new Boardlist
+                            {
+                                LISTID = Convert.ToInt32(reader["LISTID"]),
+                                TITLE = reader["TITLE"].ToString(),
+                                WRITER = reader["WRITER"].ToString(),
+                                CONTENTS = reader["CONTENTS"].ToString()
+                            });
+                        }
+                    }
+                }
+            }
+
+            return View(BoardList);
         }
 
         public ActionResult Contact()

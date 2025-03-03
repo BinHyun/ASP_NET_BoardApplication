@@ -27,7 +27,7 @@
 
     @foreach (var item in Model)
     {
-        <tr>
+        <tr onclick="readPopup(@item.LISTID)">
             <td>@item.LISTID</td>
             <td>@item.TITLE</td>
             <td>@item.WRITER</td>
@@ -46,4 +46,9 @@
         window.open('/Home/Create', 'CreatePopup',
             'width=600,height=600,toolbars=no,scrollbars=no');
     };
+
+    function readPopup(LISTID) {
+        window.open('/Home/Read?Id='+LISTID, 'ReadPopup',
+            'width=600,height=600,toolbars=no,scrollbars=no'); 
+    }
 </script>
