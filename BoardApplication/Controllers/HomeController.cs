@@ -83,7 +83,7 @@ namespace BoardApplication.Controllers
 
         public ActionResult Read(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return HttpNotFound();
             }
@@ -94,10 +94,10 @@ namespace BoardApplication.Controllers
             using (con = new SqlConnection(connectionString))
             {
                 con.Open();
-                using(cmd = new SqlCommand(sql, con))
+                using (cmd = new SqlCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@ListId", id);
-                    using(var reader = cmd.ExecuteReader())
+                    using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
@@ -114,13 +114,6 @@ namespace BoardApplication.Controllers
             }
 
             return View(BoardList);
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
         }
     }
 }

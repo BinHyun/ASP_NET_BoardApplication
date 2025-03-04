@@ -6,7 +6,7 @@
 
 }
 
-<h2></h2>
+<h2>글읽기</h2>
 
 @using (Html.BeginForm())
 {
@@ -23,15 +23,18 @@
                 @foreach (var item in Model)
                 {
                     <div class="input-group mb-3">
-                        @item.TITLE
+                        <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+                        <input type="text" class="form-control" id="@item.TITLE" name="@item.TITLE" value="@item.TITLE" />
                     </div>
 
                     <div class="input-group mb-3">
-                        @item.WRITER
+                        <span class="input-group-text" id="inputGroup-sizing-default">작성자</span>
+                        <input type="text" class="form-control" id="@item.WRITER" name="@item.WRITER" value="@item.WRITER" />
                     </div>
 
                     <div class="input-group">
-                        @item.CONTENTS
+                        <span class="input-group-text">내용</span>
+                        <textarea class="form-control" aria-label="내용" rows="5">@item.CONTENTS</textarea>
                     </div>
                 }
 
