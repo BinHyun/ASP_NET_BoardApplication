@@ -115,5 +115,14 @@ namespace BoardApplication.Controllers
 
             return View(BoardList);
         }
+
+        [HttpPost]
+        public ActionResult Update(string contents, string listId)
+        {
+            Console.WriteLine("contents ==> " + contents);
+            Console.WriteLine("listId ==> " + listId);
+
+            return View();
+        }
     }
 }

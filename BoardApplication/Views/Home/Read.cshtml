@@ -11,36 +11,77 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <div class="form-group">
-            <div style="text-align:right">
-                <input class="btn btn-primary" type="submit" value="저장">
-            </div>
-        </div>
 
-        <div class="form-group">
-            <div>
-                @foreach (var item in Model)
-                {
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
-                        <input type="text" class="form-control" id="@item.TITLE" name="@item.TITLE" value="@item.TITLE" />
-                    </div>
-
-                    <div class="input-group mb-3">
-                        <span class="input-group-text" id="inputGroup-sizing-default">작성자</span>
-                        <input type="text" class="form-control" id="@item.WRITER" name="@item.WRITER" value="@item.WRITER" />
-                    </div>
-
-                    <div class="input-group">
-                        <span class="input-group-text">내용</span>
-                        <textarea class="form-control" aria-label="내용" rows="5">@item.CONTENTS</textarea>
-                    </div>
-                }
-
-            </div>
+<head>
+    <script src="latestJs_1.11/jquery.min.js"></script>
+</head>
+   
+<div class="form-horizontal">
+    <div class="form-group">
+        <div style="text-align:right">
+            <input class="btn btn-primary" type="submit" value="수정" onclick="updateContents()">
         </div>
     </div>
+
+    <div class="form-group">
+        <div>
+            @foreach (var item in Model)
+            {
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">제목</span>
+                    <input type="text" class="form-control" id="title" value="@item.TITLE" readonly disabled />
+                    <input type="hidden" class="form-control" id="id" value="@item.LISTID" />
+                </div>
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-default">작성자</span>
+                    <input type="text" class="form-control" id="writer" value="@item.WRITER" readonly disabled />
+                </div>
+
+                <div class="input-group">
+                    <span class="input-group-text">내용</span>
+                    <textarea class="form-control" aria-label="내용" rows="5" id="contents">@item.CONTENTS</textarea>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateContents() {
+        var contents = document.querySelector("#contents").value;
+        var listId = document.querySelector("#id").value;
+
+        var param = setVal(contents, listId);
+
+
+        $.ajax({
+            url: '/home/Update',
+            type: 'POST',
+            dataType: 'json',
+            data: param,
+            success: function (data) {
+                console.log("data ==> " + data);
+                console.log("json ==> " + Json.stringify(param));
+            },
+            error: function (xhr, status, error) {
+                console.log("xhr ==> " + xhr);
+                console.log("status ==> " + status);
+                console.log("error ==> " + error);
+            }
+        });
+    };
+
+    function setVal(contents, listId) {
+        var param = {};
+
+        param.contents = contents;
+        param.listId = listId;
+
+        return param;
+    }
+</script>
 }
 
 
