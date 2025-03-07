@@ -112,17 +112,48 @@ namespace BoardApplication.Controllers
                     }
                 }
             }
-
+            ViewBag.close = false;
             return View(BoardList);
         }
 
         [HttpPost]
-        public ActionResult Update(string contents, string listId)
+        public JsonResult Update(string contents, string listId)
         {
-            Console.WriteLine("contents ==> " + contents);
-            Console.WriteLine("listId ==> " + listId);
+            if (string.IsNullOrEmpty(listId))
+            {
+                return Json(new { success = false, message = "listId가 없습니다." });
+            }
 
-            return View();
+            string sql = @"UPDATE [BOARDLIST] SET CONTENTS = @CONTENTS, CREATED_DATE = @CREATED_DATE WHERE LISTID = @ListId";
+
+            try
+            {
+                using (con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@CONTENTS", contents);
+                        cmd.Parameters.AddWithValue("@CREATED_DATE", DateTime.Now.ToString("yyyy-MM-dd")); // 현재 시간 설정
+                        cmd.Parameters.AddWithValue("@ListId", listId);
+
+                        con.Open();
+                        int updateRow = cmd.ExecuteNonQuery();
+
+                        if (updateRow > 0)
+                        {
+                            return Json(new { success = true, message = "저장이 완료 되었습니다." });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "저장이 완료되지 않았습니다." });
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                return Json(new { success = false, message = "서버 오류 발생: " + ex.Message });
+            }
         }
     }
 }
