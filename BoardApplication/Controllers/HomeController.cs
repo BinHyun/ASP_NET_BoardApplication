@@ -155,5 +155,44 @@ namespace BoardApplication.Controllers
                 return Json(new { success = false, message = "서버 오류 발생: " + ex.Message });
             }
         }
+
+        [HttpPost]
+        public JsonResult Delete(string listId)
+        {
+            if (string.IsNullOrEmpty(listId))
+            {
+                return Json(new { success = false, message = "listId가 없습니다." });
+            }
+
+            string sql = @"DELETE FROM [BOARDLIST] WHERE LISTID = @ListId";
+
+            try
+            {
+                using (con = new SqlConnection(connectionString))
+                {
+                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ListId", listId);
+
+                        con.Open();
+                        int deleteRow = cmd.ExecuteNonQuery();
+
+                        if (deleteRow > 0)
+                        {
+                            return Json(new { success = true, message = "삭제가 완료 되었습니다." });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "삭제가 완료되지 않았습니다." });
+                        }
+                    }
+                }
+
+            }
+            catch(Exception ex)
+            {
+                return Json(new { success = false, message = "서버 오류 발생: " + ex.Message });
+            }
+        }
     }
 }

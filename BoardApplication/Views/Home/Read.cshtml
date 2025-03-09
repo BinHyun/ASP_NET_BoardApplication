@@ -15,9 +15,12 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <div class="form-horizontal">
-        <div class="form-group">
-            <div style="text-align:right">
+        <div class="form-group" style="text-align:right">
+            <div style="display:inline-block">
                 <input class="btn btn-primary" type="button" value="수정" onclick="updateContents()">
+            </div>
+            <div style="display:inline-block">
+                <input class="btn btn-primary" type="button" value="삭제" onclick="deleteContents()">
             </div>
         </div>
 
@@ -72,6 +75,32 @@
                 }
             });
         };
+
+        function deleteContents() {
+            event.preventDefault();
+
+            var listId = document.querySelector("#id").value;
+
+            var param = {
+                listId: listId
+            };
+
+            $.ajax({
+                url: '/home/Delete',
+                type: 'POST',
+                dataType: 'json',
+                data: param,
+                success: function (response) {
+                    alert(response.message);
+                    window.opener.parent.location.reload();
+                    window.close();  
+                },
+                error: function (xhr, status, error) {
+                    console.log("error ==> " + error);
+                }
+            });
+            
+        }
     </script>
 }
 
