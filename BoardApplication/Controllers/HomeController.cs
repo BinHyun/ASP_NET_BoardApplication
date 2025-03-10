@@ -54,31 +54,42 @@ namespace BoardApplication.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "TITLE, CONTENTS, WRITER")] Boardlist boardlist)
+        public JsonResult Create(string title, string writer, string contents)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(contents))
             {
-                string sql = @"
-                INSERT INTO [BOARDLIST] (TITLE, CONTENTS, WRITER, CREATED_DATE) VALUES (@TITLE, @CONTENTS, @WRITER, @CREATED_DATE)";
+                return Json(new { success = false, message = "내용을 입력해주세요." });
+            }
 
+            string sql = @"INSERT INTO [BOARDLIST] (TITLE, CONTENTS, WRITER, CREATED_DATE) VALUES (@TITLE, @CONTENTS, @WRITER, @CREATED_DATE)";
+            try
+            {
                 using (con = new SqlConnection(connectionString))
                 {
-                    using (SqlCommand cmd = new SqlCommand(sql, con))
+                    using (cmd = new SqlCommand(sql, con))
                     {
-                        cmd.Parameters.AddWithValue("@TITLE", boardlist.TITLE);
-                        cmd.Parameters.AddWithValue("@CONTENTS", boardlist.CONTENTS);
-                        cmd.Parameters.AddWithValue("@WRITER", boardlist.WRITER);
+                        cmd.Parameters.AddWithValue("@TITLE", title);
+                        cmd.Parameters.AddWithValue("@CONTENTS", contents);
+                        cmd.Parameters.AddWithValue("@WRITER", writer);
                         cmd.Parameters.AddWithValue("@CREATED_DATE", DateTime.Now.ToString("yyyy-MM-dd")); // 현재 시간 설정
 
                         con.Open();
-                        cmd.ExecuteNonQuery();
+                        int createRow = cmd.ExecuteNonQuery();
+
+                        if (createRow > 0)
+                        {
+                            return Json(new { success = true, message = "저장이 완료 되었습니다." });
+                        }
+                        else
+                        {
+                            return Json(new { success = false, message = "저장이 완료되지 않았습니다." });
+                        }
                     }
                 }
-                return RedirectToAction("index");
-            }
-
-           return View(boardlist);            
+            } catch (Exception ex)
+            {
+                return Json(new { success = false, message = "서버 오류 발생: " + ex.Message });
+            }  
         }
 
         public ActionResult Read(int? id)
